@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore } from 'redux';
+import Expect from 'expect';
+import { deepFreeze } from 'deep-freeze';
 
 const counter = (state = 0, action) => {
   switch (action.type) {
