@@ -1,5 +1,10 @@
-import { /*React,*/ Component } from 'react';
-/* import { createStore } from 'redux'; */
+/*
+
+Not using app anymore, the example was always based on index...
+
+import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
+import { createStore } from 'redux';
 
 const counter = (state = 0, action) => {
   switch (action.type) {
@@ -12,34 +17,14 @@ const counter = (state = 0, action) => {
   }
 };
 
-const createStore = reducer => {
-  let state;
-  let listeners = [];
-
-  const getState = () => state;
-
-  const dispatch = action => {
-    state = reducer(state, action);
-    listeners.forEach(listener => listener());
-  };
-
-  const subscribe = listener => {
-    listeners.push(listener);
-    return () => {
-      listeners = listeners.filter(l => l !== listener);
-    };
-  };
-
-  dispatch({});
-
-  return { getState, dispatch, subscribe };
-};
-
 const store = createStore(counter);
 
-store.subscribe(() => {
-  document.body.innerText = store.getState();
-});
+const render = () => {
+  ReactDOM.render(<Counter />, document.getElementById('root'));
+};
+
+store.subscribe(render);
+render();
 
 document.addEventListener('click', () => {
   store.dispatch({ type: 'INCREMENT' });
@@ -52,3 +37,4 @@ class App extends Component {
 }
 
 export default App;
+*/
