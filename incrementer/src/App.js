@@ -14,9 +14,17 @@ const counter = (state = 0, action) => {
 
 const store = createStore(counter);
 
+store.subscribe(() => {
+  document.body.innerText = store.getState();
+});
+
+document.addEventListener('click', () => {
+  store.dispatch({ type: 'INCREMENT' });
+});
+
 class App extends Component {
   render() {
-    return <div>Hello world</div>;
+    return store.getState();
   }
 }
 
