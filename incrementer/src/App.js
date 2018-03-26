@@ -1,5 +1,5 @@
 import { /*React,*/ Component } from 'react';
-import { createStore } from 'redux';
+/* import { createStore } from 'redux'; */
 
 const counter = (state = 0, action) => {
   switch (action.type) {
@@ -11,6 +11,8 @@ const counter = (state = 0, action) => {
       return state;
   }
 };
+
+const createStore = reducer => {};
 
 const store = createStore(counter);
 
