@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { /*React,*/ Component } from 'react';
 import { createStore } from 'redux';
 
 const counter = (state = 0, action) => {
