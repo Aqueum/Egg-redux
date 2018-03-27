@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore } from 'redux';
-import Expect from 'expect';
+import expect from 'expect';
 import deepFreeze from 'deep-freeze';
 
 const todo = (state, action) => {
@@ -69,7 +69,7 @@ const testAddTodo = () => {
   deepFreeze(stateBefore);
   deepFreeze(action);
 
-  Expect(todos(stateBefore, action)).toEqual(stateAfter);
+  expect(todos(stateBefore, action)).toEqual(stateAfter);
 };
 
 const testToggleTodo = () => {
@@ -104,7 +104,7 @@ const testToggleTodo = () => {
   deepFreeze(stateBefore);
   deepFreeze(action);
 
-  Expect(todos(stateBefore, action)).toEqual(stateAfter);
+  expect(todos(stateBefore, action)).toEqual(stateAfter);
 };
 
 testAddTodo();
