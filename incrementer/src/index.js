@@ -1,5 +1,5 @@
-//import React from 'react';
-// import ReactDOM from 'react-dom';
+import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import { createStore, combineReducers } from 'redux';
 //import expect from 'expect';
 //import deepFreeze from 'deep-freeze';
@@ -140,3 +140,39 @@ testAddTodo();
 testToggleTodo();
 console.log("if you're reading this, all tests passed");
 */
+
+// THE REACT STUFF:
+
+let nextTodoID = 0;
+class TodoApp extends Component {
+  render() {
+    return (
+      <div>
+        <button
+          onClick={() => {
+            store.dispatch({
+              type: 'ADD_TODO',
+              text: 'Test',
+              id: nextTodoID++
+            });
+          }}
+        >
+          Add Todo
+        </button>
+        <ul>
+          {this.props.todos.map(todo => <li key={todo.id}>{todo.text}</li>)}
+        </ul>
+      </div>
+    );
+  }
+}
+
+const render = () => {
+  ReactDOM.render(
+    <TodoApp todos={store.getState().todos} />,
+    document.getElementById('root')
+  );
+};
+
+store.subscribe(render);
+render();
