@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore } from 'redux';
+import Expect from 'expect';
+import deepFreeze from 'deep-freeze';
 
 const todo = (state, action) => {
   switch (action.type) {
