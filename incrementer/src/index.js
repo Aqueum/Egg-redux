@@ -36,6 +36,22 @@ const todos = (state = [], action) => {
   }
 };
 
+const visibilityFilter = (state = 'SHOW_ALL', action) => {
+  switch (action.type) {
+    case 'SET_VISIBILITY_FILTER':
+      return action.filter;
+    default:
+      return state;
+  }
+};
+
+const todoApp = (state = {}, action) => {
+  return {
+    todos: todos(state.todos, action),
+    visibilityFilter: visibilityFilter(state.visibilityFilter, action)
+  };
+};
+
 const testAddTodo = () => {
   const stateBefore = [];
   const action = {
@@ -96,46 +112,3 @@ testToggleTodo();
 console.log("if you're reading this, all tests passed");
 
 // the old app follows
-
-const counter = (state = 0, action) => {
-  switch (action.type) {
-    case 'INCREMENT':
-      return state + 1;
-    case 'DECREMENT':
-      return state - 1;
-    default:
-      return state;
-  }
-};
-
-const Counter = ({ value, onIncrement, onDecrement }) => (
-  <div>
-    <h1>{value}</h1>
-    <button onClick={onIncrement}>+</button>
-    <button onClick={onDecrement}>-</button>
-  </div>
-);
-
-const store = createStore(counter);
-
-const render = () => {
-  ReactDOM.render(
-    <Counter
-      value={store.getState()}
-      onIncrement={() =>
-        store.dispatch({
-          type: 'INCREMENT'
-        })
-      }
-      onDecrement={() =>
-        store.dispatch({
-          type: 'DECREMENT'
-        })
-      }
-    />,
-    document.getElementById('root')
-  );
-};
-
-store.subscribe(render);
-render();
