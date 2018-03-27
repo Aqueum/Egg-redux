@@ -4,6 +4,49 @@ import { createStore } from 'redux';
 import Expect from 'expect';
 import deepFreeze from 'deep-freeze';
 
+// some methods of working with arrays without mutating them
+// using Expect to confirm they work and deepFreeze to enforce immutability in test
+
+const addCounter = list => {
+  return [...list, 0];
+};
+
+const removeCounter = (list, index) => {
+  return [...list.slice(0, index), ...list.slice(index + 1)];
+};
+
+const incrementCounter = (list, index) => {
+  return [...list.slice(0, index), list[index] + 1, ...list.slice(index + 1)];
+};
+
+const testAddCounter = () => {
+  const listBefore = [];
+  const listAfter = [0];
+  deepFreeze(listBefore);
+  Expect(addCounter(listBefore)).toEqual(listAfter);
+};
+
+const testRemoveCounter = () => {
+  const listBefore = [0, 10, 20];
+  const listAfter = [0, 20];
+  deepFreeze(listBefore);
+  Expect(removeCounter(listBefore, 1)).toEqual(listAfter);
+};
+
+const testIncrementCounter = () => {
+  const listBefore = [0, 10, 20];
+  const listAfter = [0, 11, 20];
+  deepFreeze(listBefore);
+  Expect(incrementCounter(listBefore, 1)).toEqual(listAfter);
+};
+
+testAddCounter();
+testRemoveCounter();
+testIncrementCounter();
+console.log('All tests passed.');
+
+// the app follows
+
 const counter = (state = 0, action) => {
   switch (action.type) {
     case 'INCREMENT':
