@@ -48,8 +48,9 @@ console.log('All array tests passed.');
 // some methods of working with objects without mitation, and test methods
 
 const toggleTodo = todo => {
-  return Object.assign({}, todo, { completed: !todo.completed });
-};
+  return { ...todo, completed: !todo.completed };
+}; // warning: object spread operator only proposed for ES7,
+// enabled in Bable if you use the stage 2 preset
 
 const testToggleTodo = () => {
   const todoBefore = {
