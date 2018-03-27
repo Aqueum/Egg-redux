@@ -51,7 +51,7 @@ const testToggleTodo = () => {
     }
   ];
   const action = {
-    type: TOGGLE_TODO,
+    type: 'TOGGLE_TODO',
     id: 0
   };
   const stateAfter = [
