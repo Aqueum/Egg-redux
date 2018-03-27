@@ -46,8 +46,7 @@ console.log('All array tests passed.');
 // some methods of working with objects without mitation, and test methods
 
 const toggleTodo = todo => {
-  todo.completed = !todo.completed;
-  return todo;
+  return Object.assign({}, todo, { completed: !todo.completed });
 };
 
 const testToggleTodo = () => {
