@@ -2,73 +2,34 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore } from 'redux';
 
-// some methods of working with arrays without mutating them
-// using Expect to confirm they work and deepFreeze to enforce immutability in test
+// Writing a Todo List Reducer
 
-const addCounter = list => {
-  return [...list, 0];
-};
+const todos = (state = [], action) => {};
 
-const removeCounter = (list, index) => {
-  return [...list.slice(0, index), ...list.slice(index + 1)];
-};
-
-const incrementCounter = (list, index) => {
-  return [...list.slice(0, index), list[index] + 1, ...list.slice(index + 1)];
-};
-
-const testAddCounter = () => {
-  const listBefore = [];
-  const listAfter = [0];
-  deepFreeze(listBefore);
-  Expect(addCounter(listBefore)).toEqual(listAfter);
-};
-
-const testRemoveCounter = () => {
-  const listBefore = [0, 10, 20];
-  const listAfter = [0, 20];
-  deepFreeze(listBefore);
-  Expect(removeCounter(listBefore, 1)).toEqual(listAfter);
-};
-
-const testIncrementCounter = () => {
-  const listBefore = [0, 10, 20];
-  const listAfter = [0, 11, 20];
-  deepFreeze(listBefore);
-  Expect(incrementCounter(listBefore, 1)).toEqual(listAfter);
-};
-
-testAddCounter();
-testRemoveCounter();
-testIncrementCounter();
-console.log('All array tests passed.');
-
-// some methods of working with objects without mitation, and test methods
-
-const toggleTodo = todo => {
-  return { ...todo, completed: !todo.completed };
-}; // warning: object spread operator only proposed for ES7,
-// enabled in Bable if you use the stage 2 preset
-
-const testToggleTodo = () => {
-  const todoBefore = {
+const testAddTodo = () => {
+  const stateBefore = [];
+  const action = {
+    type: 'ADD_TODO',
     id: 0,
-    text: 'Learn Redux',
-    completed: false
+    text: 'Learn Redux'
   };
-  const todoAfter = {
-    id: 0,
-    text: 'Learn Redux',
-    completed: true
-  };
-  deepFreeze(todoBefore);
-  Expect(toggleTodo(todoBefore)).toEqual(todoAfter);
+  const stateAfter = [
+    {
+      id: 0,
+      text: 'Learn Redux',
+      completed: false
+    }
+  ];
+  deepFreeze(stateBefore);
+  deepFreeze(action);
+
+  expect(todos(stateBefore, action)).toEqual(stateAfter);
 };
 
-testToggleTodo();
-console.log('All object tests passed.');
+testAddTodo();
+consoleLog("if you're reading this, all tests passed");
 
-// the app follows
+// the old app follows
 
 const counter = (state = 0, action) => {
   switch (action.type) {
