@@ -42,7 +42,33 @@ const testAddTodo = () => {
   Expect(todos(stateBefore, action)).toEqual(stateAfter);
 };
 
+const testToggleTodo = () => {
+  const stateBefore = [
+    {
+      id: 0,
+      text: 'Learn Redux',
+      completed: false
+    }
+  ];
+  const action = {
+    type: TOGGLE_TODO,
+    id: 0
+  };
+  const stateAfter = [
+    {
+      id: 0,
+      text: 'Learn Redux',
+      completed: true
+    }
+  ];
+  deepFreeze(stateBefore);
+  deepFreeze(action);
+
+  Expect(todos(stateBefore, action)).toEqual(stateAfter);
+};
+
 testAddTodo();
+testToggleTodo();
 console.log("if you're reading this, all tests passed");
 
 // the old app follows
