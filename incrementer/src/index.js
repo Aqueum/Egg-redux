@@ -41,7 +41,32 @@ const testIncrementCounter = () => {
 testAddCounter();
 testRemoveCounter();
 testIncrementCounter();
-console.log('All tests passed.');
+console.log('All array tests passed.');
+
+// some methods of working with objects without mitation, and test methods
+
+const toggleTodo = todo => {
+  todo.completed = !todo.completed;
+  return todo;
+};
+
+const testToggleTodo = () => {
+  const todoBefore = {
+    id: 0,
+    text: 'Learn Redux',
+    completed: false
+  };
+  const todoAfter = {
+    id: 0,
+    text: 'Learn Redux',
+    completed: true
+  };
+  deepFreeze(todoBefore);
+  Expect(toggleTodo(todoBefore)).toEqual(todoAfter);
+};
+
+testToggleTodo();
+console.log('All object tests passed.');
 
 // the app follows
 
