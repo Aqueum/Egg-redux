@@ -23,11 +23,11 @@ const testAddTodo = () => {
   deepFreeze(stateBefore);
   deepFreeze(action);
 
-  expect(todos(stateBefore, action)).toEqual(stateAfter);
+  Expect(todos(stateBefore, action)).toEqual(stateAfter);
 };
 
 testAddTodo();
-consoleLog("if you're reading this, all tests passed");
+console.log("if you're reading this, all tests passed");
 
 // the old app follows
 
