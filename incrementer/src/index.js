@@ -1,6 +1,6 @@
 //import React from 'react';
 // import ReactDOM from 'react-dom';
-import { createStore, combineReducers } from 'redux';
+import { createStore /*combineReducers*/ } from 'redux';
 //import expect from 'expect';
 //import deepFreeze from 'deep-freeze';
 
@@ -43,6 +43,16 @@ const visibilityFilter = (state = 'SHOW_ALL', action) => {
     default:
       return state;
   }
+};
+
+// create combineReducers from first principals
+const combineReducers = reducers => {
+  return (state = {}, action) => {
+    return Object.keys(reducers).reduce((nextState, key) => {
+      nextState[key] = reducers[key](state[key], action);
+      return nextState;
+    }, {});
+  };
 };
 
 const todoApp = combineReducers({
