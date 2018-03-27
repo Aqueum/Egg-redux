@@ -1,8 +1,8 @@
 //import React from 'react';
 // import ReactDOM from 'react-dom';
-// import { createStore } from 'redux';
-import expect from 'expect';
-import deepFreeze from 'deep-freeze';
+import { createStore } from 'redux';
+//import expect from 'expect';
+//import deepFreeze from 'deep-freeze';
 
 const todo = (state, action) => {
   switch (action.type) {
@@ -52,6 +52,9 @@ const todoApp = (state = {}, action) => {
   };
 };
 
+const store = createStore(todoApp);
+
+/* done with the tests for now
 const testAddTodo = () => {
   const stateBefore = [];
   const action = {
@@ -110,3 +113,4 @@ const testToggleTodo = () => {
 testAddTodo();
 testToggleTodo();
 console.log("if you're reading this, all tests passed");
+*/
