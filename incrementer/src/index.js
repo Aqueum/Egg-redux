@@ -46,8 +46,8 @@ const visibilityFilter = (state = 'SHOW_ALL', action) => {
 };
 
 const todoApp = combineReducers({
-  todos: todos,
-  visibilityFilter: visibilityFilter
+  todos,
+  visibilityFilter
 });
 /* this manual combined reducer is replaced by combineReducers
 const todoApp = (state = {}, action) => {
