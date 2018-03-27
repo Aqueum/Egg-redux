@@ -1,6 +1,6 @@
 //import React from 'react';
 // import ReactDOM from 'react-dom';
-import { createStore } from 'redux';
+import { createStore, combineReducers } from 'redux';
 //import expect from 'expect';
 //import deepFreeze from 'deep-freeze';
 
@@ -45,14 +45,29 @@ const visibilityFilter = (state = 'SHOW_ALL', action) => {
   }
 };
 
+const todoApp = combineReducers({
+  todos: todos,
+  visibilityFilter: visibilityFilter
+});
+/* this manual combined reducer is replaced by combineReducers
 const todoApp = (state = {}, action) => {
   return {
     todos: todos(state.todos, action),
     visibilityFilter: visibilityFilter(state.visibilityFilter, action)
   };
 };
+*/
 
 const store = createStore(todoApp);
+
+console.log('Dispatching SET_VISIBILITY_FILTER');
+store.dispatch({
+  type: 'SET_VISIBILITY_FILTER',
+  filter: 'SHOW_COMPLETED'
+});
+console.log('Current state:');
+console.log(store.getState());
+console.log('-----------');
 
 /* done with the tests for now
 const testAddTodo = () => {
