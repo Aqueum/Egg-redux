@@ -143,7 +143,10 @@ console.log("if you're reading this, all tests passed");
 
 // THE REACT STUFF:
 
-const FilterLink = ({ filter, children }) => {
+const FilterLink = ({ filter, currentFilter, children }) => {
+  if (filter === currentFilter) {
+    return <span>{children}</span>;
+  }
   return (
     <a
       href="#"
@@ -214,9 +217,16 @@ class TodoApp extends Component {
           ))}
         </ul>
         <p>
-          Show: <FilterLink filter="SHOW_ALL">All</FilterLink>{' '}
-          <FilterLink filter="SHOW_ACTIVE">Active</FilterLink>{' '}
-          <FilterLink filter="SHOW_COMPLETED">Completed</FilterLink>
+          Show:{' '}
+          <FilterLink filter="SHOW_ALL" currentFilter={visibilityFilter}>
+            All
+          </FilterLink>{' '}
+          <FilterLink filter="SHOW_ACTIVE" currentFilter={visibilityFilter}>
+            Active
+          </FilterLink>{' '}
+          <FilterLink filter="SHOW_COMPLETED" currentFilter={visibilityFilter}>
+            Completed
+          </FilterLink>
         </p>
       </div>
     );
