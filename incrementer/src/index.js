@@ -2,8 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore } from 'redux';
 
-// Writing a Todo List Reducer
-
 const todo = (state, action) => {
   switch (action.type) {
     case 'ADD_TODO':
@@ -110,5 +108,3 @@ const testToggleTodo = () => {
 testAddTodo();
 testToggleTodo();
 console.log("if you're reading this, all tests passed");
-
-// the old app follows
