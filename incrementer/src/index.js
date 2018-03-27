@@ -4,7 +4,21 @@ import { createStore } from 'redux';
 
 // Writing a Todo List Reducer
 
-const todos = (state = [], action) => {};
+const todos = (state = [], action) => {
+  switch (action.type) {
+    case 'ADD_TODO':
+      return [
+        ...state,
+        {
+          id: action.id,
+          text: action.text,
+          completed: false
+        }
+      ];
+    default:
+      return state;
+  }
+};
 
 const testAddTodo = () => {
   const stateBefore = [];
