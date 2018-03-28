@@ -3,8 +3,6 @@ import ReactDOM from 'react-dom';
 import { createStore, combineReducers } from 'redux';
 import PropTypes from 'prop-types';
 import { Provider, connect } from 'react-redux';
-//import expect from 'expect';
-//import deepFreeze from 'deep-freeze';
 
 const todo = (state, action) => {
   switch (action.type) {
@@ -47,95 +45,10 @@ const visibilityFilter = (state = 'SHOW_ALL', action) => {
   }
 };
 
-/* create combineReducers from first principals
-const combineReducers = reducers => {
-  return (state = {}, action) => {
-    return Object.keys(reducers).reduce((nextState, key) => {
-      nextState[key] = reducers[key](state[key], action);
-      return nextState;
-    }, {});
-  };
-};
-*/
-
 const todoApp = combineReducers({
   todos,
   visibilityFilter
 });
-/* this manual combined reducer is replaced by combineReducers
-const todoApp = (state = {}, action) => {
-  return {
-    todos: todos(state.todos, action),
-    visibilityFilter: visibilityFilter(state.visibilityFilter, action)
-  };
-};
-*/
-/*
-console.log('Dispatching SET_VISIBILITY_FILTER');
-store.dispatch({
-  type: 'SET_VISIBILITY_FILTER',
-  filter: 'SHOW_COMPLETED'
-});
-console.log('Current state:');
-console.log(store.getState());
-console.log('-----------');
-*/
-/* done with the tests for now
-const testAddTodo = () => {
-  const stateBefore = [];
-  const action = {
-    type: 'ADD_TODO',
-    id: 0,
-    text: 'Learn Redux'
-  };
-  const stateAfter = [
-    {
-      id: 0,
-      text: 'Learn Redux',
-      completed: false
-    }
-  ];
-  deepFreeze(stateBefore);
-  deepFreeze(action);
-  expect(todos(stateBefore, action)).toEqual(stateAfter);
-};
-const testToggleTodo = () => {
-  const stateBefore = [
-    {
-      id: 0,
-      text: 'Learn Redux',
-      completed: false
-    },
-    {
-      id: 1,
-      text: 'Go shopping',
-      completed: false
-    }
-  ];
-  const action = {
-    type: 'TOGGLE_TODO',
-    id: 1
-  };
-  const stateAfter = [
-    {
-      id: 0,
-      text: 'Learn Redux',
-      completed: false
-    },
-    {
-      id: 1,
-      text: 'Go shopping',
-      completed: true
-    }
-  ];
-  deepFreeze(stateBefore);
-  deepFreeze(action);
-  expect(todos(stateBefore, action)).toEqual(stateAfter);
-};
-testAddTodo();
-testToggleTodo();
-console.log("if you're reading this, all tests passed");
-*/
 
 // THE REACT STUFF:
 
