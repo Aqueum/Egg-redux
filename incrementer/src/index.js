@@ -131,7 +131,7 @@ const TodoList = ({ todos, onTodoClick }) => (
 );
 
 let nextTodoID = 0;
-const AddTodo = (props, { store }) => {
+let AddTodo = ({ dispatch }) => {
   let input;
   return (
     <div>
@@ -142,7 +142,7 @@ const AddTodo = (props, { store }) => {
       />
       <button
         onClick={() => {
-          store.dispatch({
+          dispatch({
             type: 'ADD_TODO',
             id: nextTodoID++,
             text: input.value
@@ -155,9 +155,7 @@ const AddTodo = (props, { store }) => {
     </div>
   );
 };
-AddTodo.contextTypes = {
-  store: PropTypes.object
-};
+AddTodo = connect()(AddTodo); // connect() with no mapToProps or dispatchToProps injects dispatch by default
 
 const getVisibleTodos = (todos, filter) => {
   switch (filter) {
@@ -170,13 +168,14 @@ const getVisibleTodos = (todos, filter) => {
   }
 };
 
-const mapStateToProps = state => {
+const mapStateToTodoListProps = state => {
+  // would normally call this mapStateToProps in multi-file project
   return {
     todos: getVisibleTodos(state.todos, state.visibilityFilter)
   };
 };
-
-const mapDispatchToProps = dispatch => {
+const mapDispatchToTodoListProps = dispatch => {
+  // would normally call this mapDispatchToProps in multi-file project
   return {
     onTodoClick: id => {
       dispatch({
@@ -186,8 +185,10 @@ const mapDispatchToProps = dispatch => {
     }
   };
 };
-
-const VisibleTodoList = connect(mapStateToProps, mapDispatchToProps)(TodoList);
+const VisibleTodoList = connect(
+  mapStateToTodoListProps,
+  mapDispatchToTodoListProps
+)(TodoList);
 
 const TodoApp = () => (
   <div>
