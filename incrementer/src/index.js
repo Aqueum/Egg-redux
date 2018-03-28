@@ -212,6 +212,7 @@ const TodoList = ({ todos, onTodoClick }) => (
   </ul>
 );
 
+let nextTodoID = 0;
 const AddTodo = () => {
   let input;
   return (
@@ -275,7 +276,6 @@ class VisibleTodoList extends Component {
   }
 }
 
-let nextTodoID = 0;
 const TodoApp = () => (
   <div>
     <AddTodo />
