@@ -139,8 +139,8 @@ console.log("if you're reading this, all tests passed");
 
 // THE REACT STUFF:
 
-const FilterLink = ({ filter, currentFilter, children, onClick }) => {
-  if (filter === currentFilter) {
+const Link = ({ active, children, onClick }) => {
+  if (active) {
     return <span>{children}</span>;
   }
   return (
@@ -148,7 +148,7 @@ const FilterLink = ({ filter, currentFilter, children, onClick }) => {
       href="#"
       onClick={e => {
         e.preventDefault();
-        onClick(filter);
+        onClick();
       }}
     >
       {children}
@@ -156,30 +156,40 @@ const FilterLink = ({ filter, currentFilter, children, onClick }) => {
   );
 };
 
-const Footer = ({ visibilityFilter, onFilterClick }) => (
+class FilterLink extends Component {
+  componentDidMount() {
+    this.unsubscribe = store.subscribe(() => this.forceUpdate()); // this.unsubscribe is the value returned by the store.subscribe action that we primarily are executing here
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
+
+  render() {
+    const props = this.props;
+    const state = store.getState();
+
+    return (
+      <Link
+        active={props.filter === state.visibilityFilter}
+        onClick={() =>
+          store.dispatch({
+            type: 'SET_VISIBILITY_FILTER',
+            filter: props.filter
+          })
+        }
+      >
+        {props.children}
+      </Link>
+    );
+  }
+}
+
+const Footer = () => (
   <p>
-    Show:{' '}
-    <FilterLink
-      filter="SHOW_ALL"
-      currentFilter={visibilityFilter}
-      onClick={onFilterClick}
-    >
-      All
-    </FilterLink>{' '}
-    <FilterLink
-      filter="SHOW_ACTIVE"
-      currentFilter={visibilityFilter}
-      onClick={onFilterClick}
-    >
-      Active
-    </FilterLink>{' '}
-    <FilterLink
-      filter="SHOW_COMPLETED"
-      currentFilter={visibilityFilter}
-      onClick={onFilterClick}
-    >
-      Completed
-    </FilterLink>
+    Show: <FilterLink filter="SHOW_ALL">All</FilterLink>{' '}
+    <FilterLink filter="SHOW_ACTIVE">Active</FilterLink>{' '}
+    <FilterLink filter="SHOW_COMPLETED">Completed</FilterLink>
   </p>
 );
 
@@ -255,15 +265,7 @@ const TodoApp = ({ todos, visibilityFilter }) => (
         })
       }
     />
-    <Footer
-      visibilityFilter={visibilityFilter}
-      onFilterClick={filter =>
-        store.dispatch({
-          type: 'SET_VISIBILITY_FILTER',
-          filter
-        })
-      }
-    />
+    <Footer />
   </div>
 );
 
