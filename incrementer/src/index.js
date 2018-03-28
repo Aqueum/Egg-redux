@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore, combineReducers } from 'redux';
-import PropTypes from 'prop-types';
 import { Provider, connect } from 'react-redux';
 
+// Reducers
 const todo = (state, action) => {
   switch (action.type) {
     case 'ADD_TODO':
@@ -50,6 +50,30 @@ const todoApp = combineReducers({
   visibilityFilter
 });
 
+// Action Creators - keep these all in one place
+let nextTodoID = 0;
+const addTodo = text => {
+  return {
+    type: 'ADD_TODO',
+    id: nextTodoID++,
+    text
+  };
+};
+
+const setVisibilityFilter = filter => {
+  return {
+    type: 'SET_VISIBILITY_FILTER',
+    filter
+  };
+};
+
+const toggleTodo = id => {
+  return {
+    type: 'TOGGLE_TODO',
+    id
+  };
+};
+
 // THE REACT STUFF:
 
 const Link = ({ active, children, onClick }) => {
@@ -69,39 +93,23 @@ const Link = ({ active, children, onClick }) => {
   );
 };
 
-class FilterLink extends Component {
-  componentDidMount() {
-    const { store } = this.context;
-    this.unsubscribe = store.subscribe(() => this.forceUpdate()); // this.unsubscribe is the value returned by the store.subscribe action that we primarily are executing here
-  }
-
-  componentWillUnmount() {
-    this.unsubscribe();
-  }
-
-  render() {
-    const props = this.props;
-    const { store } = this.context;
-    const state = store.getState();
-
-    return (
-      <Link
-        active={props.filter === state.visibilityFilter}
-        onClick={() =>
-          store.dispatch({
-            type: 'SET_VISIBILITY_FILTER',
-            filter: props.filter
-          })
-        }
-      >
-        {props.children}
-      </Link>
-    );
-  }
-}
-FilterLink.contextTypes = {
-  store: PropTypes.object
+const mapStateToLinkProps = (
+  // would normally call this mapStateToProps in multi-file project
+  state,
+  ownProps
+) => {
+  return {
+    active: ownProps.filter === state.visibilityFilter
+  };
 };
+const mapDispatchToLinkProps = (dispatch, ownProps) => {
+  return {
+    onClick: () => {
+      dispatch(setVisibilityFilter(ownProps.filter));
+    }
+  };
+};
+const FilterLink = connect(mapStateToLinkProps, mapDispatchToLinkProps)(Link);
 
 const Footer = () => (
   <p>
@@ -130,7 +138,6 @@ const TodoList = ({ todos, onTodoClick }) => (
   </ul>
 );
 
-let nextTodoID = 0;
 let AddTodo = ({ dispatch }) => {
   let input;
   return (
@@ -142,11 +149,7 @@ let AddTodo = ({ dispatch }) => {
       />
       <button
         onClick={() => {
-          dispatch({
-            type: 'ADD_TODO',
-            id: nextTodoID++,
-            text: input.value
-          });
+          dispatch(addTodo(input.value));
           input.value = '';
         }}
       >
@@ -179,10 +182,7 @@ const mapDispatchToTodoListProps = dispatch => {
   // would normally call this mapDispatchToProps in multi-file project
   return {
     onTodoClick: id => {
-      dispatch({
-        type: 'TOGGLE_TODO',
-        id
-      });
+      dispatch(toggleTodo(id));
     }
   };
 };
