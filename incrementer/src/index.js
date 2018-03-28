@@ -68,9 +68,7 @@ const todoApp = (state = {}, action) => {
   };
 };
 */
-
-const store = createStore(todoApp);
-
+/*
 console.log('Dispatching SET_VISIBILITY_FILTER');
 store.dispatch({
   type: 'SET_VISIBILITY_FILTER',
@@ -79,7 +77,7 @@ store.dispatch({
 console.log('Current state:');
 console.log(store.getState());
 console.log('-----------');
-
+*/
 /* done with the tests for now
 const testAddTodo = () => {
   const stateBefore = [];
@@ -158,6 +156,7 @@ const Link = ({ active, children, onClick }) => {
 
 class FilterLink extends Component {
   componentDidMount() {
+    const { store } = this.props;
     this.unsubscribe = store.subscribe(() => this.forceUpdate()); // this.unsubscribe is the value returned by the store.subscribe action that we primarily are executing here
   }
 
@@ -167,6 +166,7 @@ class FilterLink extends Component {
 
   render() {
     const props = this.props;
+    const { store } = props;
     const state = store.getState();
 
     return (
@@ -185,11 +185,18 @@ class FilterLink extends Component {
   }
 }
 
-const Footer = () => (
+const Footer = ({ store }) => (
   <p>
-    Show: <FilterLink filter="SHOW_ALL">All</FilterLink>{' '}
-    <FilterLink filter="SHOW_ACTIVE">Active</FilterLink>{' '}
-    <FilterLink filter="SHOW_COMPLETED">Completed</FilterLink>
+    Show:{' '}
+    <FilterLink filter="SHOW_ALL" store={store}>
+      All
+    </FilterLink>{' '}
+    <FilterLink filter="SHOW_ACTIVE" store={store}>
+      Active
+    </FilterLink>{' '}
+    <FilterLink filter="SHOW_COMPLETED" store={store}>
+      Completed
+    </FilterLink>
   </p>
 );
 
@@ -213,7 +220,7 @@ const TodoList = ({ todos, onTodoClick }) => (
 );
 
 let nextTodoID = 0;
-const AddTodo = () => {
+const AddTodo = ({ store }) => {
   let input;
   return (
     <div>
@@ -251,6 +258,7 @@ const getVisibleTodos = (todos, filter) => {
 
 class VisibleTodoList extends Component {
   componentDidMount() {
+    const { store } = this.props;
     this.unsubscribe = store.subscribe(() => this.forceUpdate()); // this.unsubscribe is the value returned by the store.subscribe action that we primarily are executing here
   }
 
@@ -259,7 +267,8 @@ class VisibleTodoList extends Component {
   }
 
   render() {
-    //const props = this.props;
+    const props = this.props;
+    const { store } = props;
     const state = store.getState();
 
     return (
@@ -276,12 +285,15 @@ class VisibleTodoList extends Component {
   }
 }
 
-const TodoApp = () => (
+const TodoApp = ({ store }) => (
   <div>
-    <AddTodo />
-    <VisibleTodoList />
-    <Footer />
+    <AddTodo store={store} />
+    <VisibleTodoList store={store} />
+    <Footer store={store} />
   </div>
 );
 
-ReactDOM.render(<TodoApp />, document.getElementById('root'));
+ReactDOM.render(
+  <TodoApp store={createStore(todoApp)} />,
+  document.getElementById('root')
+);
