@@ -155,7 +155,8 @@ let AddTodo = ({ dispatch }) => {
     </div>
   );
 };
-AddTodo = connect()(AddTodo); // connect() with no mapToProps or dispatchToProps injects dispatch by default
+AddTodo = connect()(AddTodo);
+// connect() with no mapToProps or dispatchToProps injects dispatch by default
 
 const getVisibleTodos = (todos, filter) => {
   switch (filter) {
