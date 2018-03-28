@@ -212,7 +212,7 @@ const TodoList = ({ todos, onTodoClick }) => (
   </ul>
 );
 
-const AddTodo = ({ onAddClick }) => {
+const AddTodo = () => {
   let input;
   return (
     <div>
@@ -223,7 +223,11 @@ const AddTodo = ({ onAddClick }) => {
       />
       <button
         onClick={() => {
-          onAddClick(input.value);
+          store.dispatch({
+            type: 'ADD_TODO',
+            id: nextTodoID++,
+            text: input.value
+          });
           input.value = '';
         }}
       >
@@ -274,15 +278,7 @@ class VisibleTodoList extends Component {
 let nextTodoID = 0;
 const TodoApp = ({ todos, visibilityFilter }) => (
   <div>
-    <AddTodo
-      onAddClick={text =>
-        store.dispatch({
-          type: 'ADD_TODO',
-          id: nextTodoID++,
-          text
-        })
-      }
-    />
+    <AddTodo />
     <VisibleTodoList />
     <Footer />
   </div>
