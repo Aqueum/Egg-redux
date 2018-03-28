@@ -276,7 +276,7 @@ class VisibleTodoList extends Component {
 }
 
 let nextTodoID = 0;
-const TodoApp = ({ todos, visibilityFilter }) => (
+const TodoApp = () => (
   <div>
     <AddTodo />
     <VisibleTodoList />
@@ -284,12 +284,4 @@ const TodoApp = ({ todos, visibilityFilter }) => (
   </div>
 );
 
-const render = () => {
-  ReactDOM.render(
-    <TodoApp {...store.getState()} />,
-    document.getElementById('root')
-  );
-};
-
-store.subscribe(render);
-render();
+ReactDOM.render(<TodoApp />, document.getElementById('root'));
